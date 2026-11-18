@@ -1,39 +1,965 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schoolvixofficial - School Management Systems</title>
+    <title>Schoolvix — Next-Generation School Management System</title>
+    <meta name="description" content="Enterprise-grade cloud School Management System for modern academic institutions. Automate admissions, attendance, fees, exams, and parent communication.">
+    
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                            950: '#1e1b4b',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Glassmorphism & Utility Styling -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            text-align: center;
-            padding: 50px;
+        .glass-nav {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        .hero-grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(99, 102, 241, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99, 102, 241, 0.06) 1px, transparent 1px);
         }
-        h1 {
-            color: #2c3e50;
+        .dark .hero-grid-bg {
+            background-image: 
+                linear-gradient(to right, rgba(129, 140, 248, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(129, 140, 248, 0.07) 1px, transparent 1px);
         }
-        p {
-            color: #7f8c8d;
-            font-size: 18px;
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Welcome to Schoolvixofficial</h1>
-        <p>School Management Systems</p>
-        <p><b>Website is coming soon...</b></p>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- ==================== 1. STICKY GLASSMORPHIC NAVIGATION ==================== -->
+    <header class="sticky top-0 z-50 w-full glass-nav bg-white/80 dark:bg-slate-950/80 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/30 group-hover:scale-105 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-display font-extrabold text-xl tracking-tight text-slate-900 dark:text-white">School<span class="text-brand-600 dark:text-brand-400">vix</span></span>
+                        <span class="hidden sm:inline-block ml-1.5 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-100 text-brand-700 dark:bg-brand-950 dark:text-brand-300 border border-brand-200 dark:border-brand-800">Official</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
+                    <a href="#live-demo" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Live Preview</a>
+                    <a href="#modules" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Modules</a>
+                    <a href="#impact" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Global Impact</a>
+                    <a href="#pricing" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Pricing</a>
+                    <a href="#contact" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Contact</a>
+                </nav>
+
+                <!-- Right Controls: Theme Toggle + CTA + Mobile Menu Button -->
+                <div class="flex items-center gap-3">
+                    <!-- Dark/Light Mode Toggle -->
+                    <button id="themeToggle" aria-label="Toggle Dark Mode" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/70 dark:bg-slate-900/70 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all">
+                        <!-- Sun Icon (shown in dark mode) -->
+                        <svg id="sunIcon" class="w-5 h-5 hidden dark:block text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <!-- Moon Icon (shown in light mode) -->
+                        <svg id="moonIcon" class="w-5 h-5 block dark:hidden text-slate-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+
+                    <!-- Primary CTA Button -->
+                    <button onclick="openDemoModal('Request Free Demo')" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 active:scale-[0.98] shadow-md shadow-brand-600/25 transition-all">
+                        <span>Request Free Demo</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </button>
+
+                    <!-- Mobile Hamburger Button -->
+                    <button id="mobileMenuBtn" aria-label="Open Navigation Menu" class="md:hidden p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-4 pt-3 pb-5 space-y-2">
+            <a href="#live-demo" onclick="closeMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-900">Live Preview</a>
+            <a href="#modules" onclick="closeMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-900">Core Modules</a>
+            <a href="#impact" onclick="closeMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-900">Global Impact</a>
+            <a href="#pricing" onclick="closeMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-900">Pricing Plans</a>
+            <a href="#contact" onclick="closeMobileMenu()" class="block px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-900">Contact Us</a>
+            <div class="pt-2">
+                <button onclick="closeMobileMenu(); openDemoModal('Request Free Demo')" class="w-full py-3 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-md">
+                    Request Free Demo
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== 2. HERO SECTION ==================== -->
+    <section class="relative overflow-hidden hero-grid-bg pt-14 pb-20 sm:pt-20 sm:pb-28 border-b border-slate-200/70 dark:border-slate-800/70">
+        <!-- Ambient Gradient Glows -->
+        <div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[780px] h-[380px] rounded-full bg-gradient-to-r from-brand-500/20 via-purple-500/20 to-cyan-500/20 blur-3xl"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-4xl mx-auto">
+                <!-- Announcement Pill -->
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-sm mb-6">
+                    <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Schoolvix Cloud v4.2 — Built for K-12, Colleges & Multi-Campus Networks</span>
+                </div>
+
+                <!-- Headline -->
+                <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-slate-900 dark:text-white leading-[1.12]">
+                    Next-Generation <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-indigo-500 to-cyan-500 dark:from-brand-400 dark:via-indigo-300 dark:to-cyan-400">School Management System</span> for Modern Institutions
+                </h1>
+
+                <!-- Subheadline -->
+                <p class="mt-6 text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                    Unify admissions, student lifecycle, automated fee billing, smart biometric attendance, AI report cards, and real-time parent engagement into one effortless cloud operating system.
+                </p>
+
+                <!-- Dual CTAs -->
+                <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#live-demo" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-lg shadow-brand-600/30 transition-all hover:-translate-y-0.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Explore Interactive Demo</span>
+                    </a>
+                    <button onclick="openDemoModal('Get Started Free — 30-Day Sandbox')" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm transition-all">
+                        <span>Get Started Free</span>
+                        <span class="text-xs px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 font-bold">No Card</span>
+                    </button>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                        <span>99.9% Cloud SLA Uptime</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                        <span>ISO-27001 & GDPR Ready</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-cyan-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0z"/></svg>
+                        <span>Multi-Campus & Multi-Currency</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Floating Mini-Dashboard Snapshot -->
+            <div class="mt-14 max-w-5xl mx-auto">
+                <div class="rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800 shadow-2xl shadow-slate-900/10 dark:shadow-black/50 overflow-hidden">
+                    <!-- Browser Window Top Bar -->
+                    <div class="flex items-center justify-between px-4 py-3 bg-slate-100/90 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700/80">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-400"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1 rounded-md bg-white dark:bg-slate-900 text-xs text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                            <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                            <span>app.schoolvixofficial.github.io/campus-overview</span>
+                        </div>
+                        <span class="text-[11px] font-semibold text-brand-600 dark:text-brand-400">LIVE SYNC</span>
+                    </div>
+
+                    <!-- Mini Dashboard KPIs -->
+                    <div class="p-5 sm:p-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60">
+                            <div class="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
+                                <span>Active Students</span>
+                                <span class="text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/70 px-2 py-0.5 rounded-full font-semibold">+14.2%</span>
+                            </div>
+                            <div class="mt-2 font-display font-extrabold text-2xl text-slate-900 dark:text-white">3,480</div>
+                            <div class="mt-1 text-xs text-slate-500">Across 4 international campuses</div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60">
+                            <div class="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
+                                <span>Today's Attendance</span>
+                                <span class="text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/70 px-2 py-0.5 rounded-full font-semibold">Biometric</span>
+                            </div>
+                            <div class="mt-2 font-display font-extrabold text-2xl text-slate-900 dark:text-white">97.4%</div>
+                            <div class="mt-1 text-xs text-slate-500">91 parents notified automatically</div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60">
+                            <div class="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
+                                <span>Fee Collection (Q4)</span>
+                                <span class="text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/70 px-2 py-0.5 rounded-full font-semibold">94% Paid</span>
+                            </div>
+                            <div class="mt-2 font-display font-extrabold text-2xl text-slate-900 dark:text-white">$284,950</div>
+                            <div class="mt-1 text-xs text-slate-500">Auto-reconciled via Stripe & Bank</div>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60">
+                            <div class="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400">
+                                <span>Exam Grading AI</span>
+                                <span class="text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/70 px-2 py-0.5 rounded-full font-semibold">Ready</span>
+                            </div>
+                            <div class="mt-2 font-display font-extrabold text-2xl text-slate-900 dark:text-white">100%</div>
+                            <div class="mt-1 text-xs text-slate-500">Digital report cards published</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 3. INTERACTIVE ROLE-BASED DASHBOARD PREVIEW ==================== -->
+    <section id="live-demo" class="py-20 sm:py-28 bg-white dark:bg-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto reveal">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">Interactive Experience</span>
+                <h2 class="mt-2 font-display font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white">
+                    One Unified Platform, Tailored for Every Role
+                </h2>
+                <p class="mt-4 text-slate-600 dark:text-slate-400 text-base sm:text-lg">
+                    Switch between portals below to preview how administrators, teachers, and parents collaborate in real time.
+                </p>
+
+                <!-- Role Switcher Tabs -->
+                <div class="mt-8 inline-flex p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-inner">
+                    <button onclick="switchRole('admin')" id="tab-admin" class="role-tab px-5 py-2.5 rounded-xl text-sm font-semibold transition-all bg-white dark:bg-slate-800 text-brand-600 dark:text-brand-400 shadow-sm">
+                        Admin & Principal View
+                    </button>
+                    <button onclick="switchRole('teacher')" id="tab-teacher" class="role-tab px-5 py-2.5 rounded-xl text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                        Teacher Portal
+                    </button>
+                    <button onclick="switchRole('parent')" id="tab-parent" class="role-tab px-5 py-2.5 rounded-xl text-sm font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                        Parent & Student App
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dynamic Portal Display Container -->
+            <div id="role-preview-container" class="mt-12 rounded-3xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-xl transition-all duration-300 reveal">
+                <!-- Populated dynamically via JS on load & tab click -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 4. CORE MODULES GRID ==================== -->
+    <section id="modules" class="py-20 sm:py-28 bg-slate-50 dark:bg-slate-900/40 border-y border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto reveal">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">Enterprise Suite</span>
+                <h2 class="mt-2 font-display font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white">
+                    Everything Your Institution Needs to Scale
+                </h2>
+                <p class="mt-4 text-slate-600 dark:text-slate-400 text-base sm:text-lg">
+                    Modular architecture engineered to replace legacy spreadsheets and disconnected tools with automated workflows.
+                </p>
+            </div>
+
+            <div class="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                <!-- Module 1: Student Information System -->
+                <div class="group p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-brand-500/50 dark:hover:border-brand-500/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 reveal">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/80 text-brand-600 dark:text-brand-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    </div>
+                    <h3 class="mt-5 font-display font-bold text-xl text-slate-900 dark:text-white">Student Information System (SIS)</h3>
+                    <p class="mt-2.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        360-degree digital student profiles covering online admissions, document vaults, health records, disciplinary logs, and alumni tracking.
+                    </p>
+                </div>
+
+                <!-- Module 2: Automated Fee & Payroll -->
+                <div class="group p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-brand-500/50 dark:hover:border-brand-500/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 reveal">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="mt-5 font-display font-bold text-xl text-slate-900 dark:text-white">Automated Fee & Payroll</h3>
+                    <p class="mt-2.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Recurring invoice generation, scholarship discounts, late-fee rules, online payment gateways, and automated staff salary disbursement.
+                    </p>
+                </div>
+
+                <!-- Module 3: Smart Attendance -->
+                <div class="group p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-brand-500/50 dark:hover:border-brand-500/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 reveal">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-50 dark:bg-cyan-950/80 text-cyan-600 dark:text-cyan-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+                    </div>
+                    <h3 class="mt-5 font-display font-bold text-xl text-slate-900 dark:text-white">Smart Attendance (Biometric/QR)</h3>
+                    <p class="mt-2.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Instant check-ins via RFID cards, biometric scanners, or mobile QR codes with automatic SMS/WhatsApp alerts sent to parents on absence.
+                    </p>
+                </div>
+
+                <!-- Module 4: Exam & Report Card Generator -->
+                <div class="group p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-brand-500/50 dark:hover:border-brand-500/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 reveal">
+                    <div class="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/80 text-purple-600 dark:text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <h3 class="mt-5 font-display font-bold text-xl text-slate-900 dark:text-white">Exam & Report Card Generator</h3>
+                    <p class="mt-2.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Customizable GPA/percentage grading scales, automated exam seating plans, digital transcripts, and one-click branded PDF report cards.
+                    </p>
+                </div>
+
+                <!-- Module 5: Parent-Teacher Communication Hub -->
+                <div class="group p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-brand-500/50 dark:hover:border-brand-500/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 reveal">
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                    </div>
+                    <h3 class="mt-5 font-display font-bold text-xl text-slate-900 dark:text-white">Parent-Teacher Communication Hub</h3>
+                    <p class="mt-2.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Broadcast school announcements, share daily homework attachments, schedule PTM slots, and chat securely without sharing personal phone numbers.
+                    </p>
+                </div>
+
+                <!-- Module 6: Library & Transport Management -->
+                <div class="group p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-brand-500/50 dark:hover:border-brand-500/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 reveal">
+                    <div class="w-12 h-12 rounded-xl bg-rose-50 dark:bg-rose-950/80 text-rose-600 dark:text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                    </div>
+                    <h3 class="mt-5 font-display font-bold text-xl text-slate-900 dark:text-white">Library & Transport GPS</h3>
+                    <p class="mt-2.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Barcode book cataloging with auto-overdue fines, paired with live school bus route optimization and parent pickup notifications.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 5. GLOBAL IMPACT & STATS COUNTER ==================== -->
+    <section id="impact" class="py-20 bg-gradient-to-br from-brand-900 via-indigo-950 to-slate-950 text-white relative overflow-hidden">
+        <div class="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(#818cf8_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14 reveal">
+                <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Trusted by Forward-Thinking Educators</h2>
+                <p class="mt-3 text-indigo-200 text-base sm:text-lg">
+                    Measurable operational efficiency from day one of cloud deployment.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm reveal">
+                    <div class="font-display font-extrabold text-4xl sm:text-5xl text-white">
+                        <span class="counter" data-target="500">0</span>+
+                    </div>
+                    <div class="mt-2 text-sm font-medium text-indigo-200">Partner Institutions</div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm reveal">
+                    <div class="font-display font-extrabold text-4xl sm:text-5xl text-cyan-400">
+                        <span class="counter" data-target="250">0</span>K+
+                    </div>
+                    <div class="mt-2 text-sm font-medium text-indigo-200">Active Students Managed</div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm reveal">
+                    <div class="font-display font-extrabold text-4xl sm:text-5xl text-emerald-400">
+                        <span class="counter" data-target="45">0</span>+
+                    </div>
+                    <div class="mt-2 text-sm font-medium text-indigo-200">Admin Hours Saved / Month</div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm reveal">
+                    <div class="font-display font-extrabold text-4xl sm:text-5xl text-amber-400">
+                        <span class="counter" data-target="99">0</span>.9%
+                    </div>
+                    <div class="mt-2 text-sm font-medium text-indigo-200">Client Satisfaction Score</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. TRANSPARENT PRICING PLANS ==================== -->
+    <section id="pricing" class="py-20 sm:py-28 bg-white dark:bg-slate-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto reveal">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">Transparent Pricing</span>
+                <h2 class="mt-2 font-display font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white">
+                    Simple Plans That Grow With Your Campus
+                </h2>
+                <p class="mt-4 text-slate-600 dark:text-slate-400 text-base sm:text-lg">
+                    No hidden setup fees. Includes free data migration, staff onboarding, and 24/7 cloud backups.
+                </p>
+
+                <!-- Monthly / Annual Billing Toggle -->
+                <div class="mt-8 inline-flex items-center gap-3 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                    <button id="billMonthlyBtn" onclick="setBilling('monthly')" class="px-5 py-2 rounded-xl text-sm font-semibold transition-all text-slate-600 dark:text-slate-400">
+                        Monthly Billing
+                    </button>
+                    <button id="billAnnualBtn" onclick="setBilling('annual')" class="px-5 py-2 rounded-xl text-sm font-semibold transition-all bg-white dark:bg-slate-800 text-brand-600 dark:text-brand-400 shadow-sm">
+                        Annual Billing <span class="ml-1 text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 font-bold">Save 20%</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3 Pricing Tiers -->
+            <div class="mt-14 grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+                <!-- Tier 1: Starter -->
+                <div class="flex flex-col justify-between p-8 rounded-3xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 reveal">
+                    <div>
+                        <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">Starter Campus</h3>
+                        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Ideal for growing primary schools and academies up to 300 students.</p>
+                        <div class="mt-6 flex items-baseline gap-1">
+                            <span class="font-display font-extrabold text-4xl text-slate-900 dark:text-white price-val" data-monthly="49" data-annual="39">$39</span>
+                            <span class="text-sm text-slate-500">/month</span>
+                        </div>
+                        <ul class="mt-7 space-y-3.5 text-sm text-slate-600 dark:text-slate-300">
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Up to 300 Active Students</li>
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Student & Staff Directory (SIS)</li>
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Digital Attendance & Timetables</li>
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Fee Invoicing & PDF Receipts</li>
+                        </ul>
+                    </div>
+                    <button onclick="openDemoModal('Starter Campus Plan')" class="mt-8 w-full py-3 rounded-xl text-sm font-semibold text-slate-800 dark:text-white bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                        Start 30-Day Free Trial
+                    </button>
+                </div>
+
+                <!-- Tier 2: Professional (Most Popular) -->
+                <div class="relative flex flex-col justify-between p-8 rounded-3xl bg-white dark:bg-slate-900 border-2 border-brand-600 shadow-2xl shadow-brand-600/15 reveal">
+                    <div class="absolute -top-3.5 right-6 px-3.5 py-1 rounded-full bg-brand-600 text-white text-xs font-bold uppercase tracking-wider shadow-md">
+                        Most Popular
+                    </div>
+                    <div>
+                        <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">Professional</h3>
+                        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Complete academic & financial automation for K-12 schools and colleges.</p>
+                        <div class="mt-6 flex items-baseline gap-1">
+                            <span class="font-display font-extrabold text-4xl text-slate-900 dark:text-white price-val" data-monthly="119" data-annual="95">$95</span>
+                            <span class="text-sm text-slate-500">/month</span>
+                        </div>
+                        <ul class="mt-7 space-y-3.5 text-sm text-slate-600 dark:text-slate-300">
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-brand-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Up to 1,500 Active Students</li>
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-brand-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Biometric / QR Smart Attendance</li>
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-brand-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Parent & Student Mobile Portal</li>
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-brand-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> AI Report Cards, Payroll & Library</li>
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-brand-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> WhatsApp & Email Auto-Alerts</li>
+                        </ul>
+                    </div>
+                    <button onclick="openDemoModal('Professional Plan')" class="mt-8 w-full py-3.5 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-lg shadow-brand-600/25 transition-all">
+                        Get Started with Pro
+                    </button>
+                </div>
+
+                <!-- Tier 3: Enterprise Multi-Campus -->
+                <div class="flex flex-col justify-between p-8 rounded-3xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 reveal">
+                    <div>
+                        <h3 class="font-display font-bold text-xl text-slate-900 dark:text-white">Enterprise Network</h3>
+                        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Centralized governance for school chains, franchises, and universities.</p>
+                        <div class="mt-6 flex items-baseline gap-1">
+                            <span class="font-display font-extrabold text-4xl text-slate-900 dark:text-white">Custom</span>
+                        </div>
+                        <ul class="mt-7 space-y-3.5 text-sm text-slate-600 dark:text-slate-300">
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Unlimited Students & Campuses</li>
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> White-Label Custom Domain & App</li>
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> Dedicated Cloud Instance & API</li>
+                            <li class="flex items-center gap-2.5"><svg class="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> 24/7 Priority Account Engineer</li>
+                        </ul>
+                    </div>
+                    <button onclick="openDemoModal('Enterprise Multi-Campus Inquiry')" class="mt-8 w-full py-3 rounded-xl text-sm font-semibold text-slate-800 dark:text-white bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                        Contact Enterprise Sales
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 7. CONTACT & DEMO SECTION ==================== -->
+    <section id="contact" class="py-20 sm:py-28 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200/70 dark:border-slate-800/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Info -->
+                <div class="lg:col-span-5 reveal">
+                    <span class="text-xs font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">Get In Touch</span>
+                    <h2 class="mt-2 font-display font-extrabold text-3xl sm:text-4xl text-slate-900 dark:text-white">
+                        Ready to Digitize Your School?
+                    </h2>
+                    <p class="mt-4 text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Schedule a personalized 20-minute walkthrough with our EdTech specialists. We will tailor a live sandbox specifically for your institution's workflow.
+                    </p>
+
+                    <div class="mt-8 space-y-4">
+                        <div class="flex items-start gap-4">
+                            <div class="p-3 rounded-xl bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-900 dark:text-white text-sm">Global Support & Sales</h4>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">hello@schoolvixofficial.com</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-slate-900 dark:text-white text-sm">Official Cloud Portal</h4>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">https://schoolvixofficial.github.io</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Contact Form -->
+                <div class="lg:col-span-7 reveal">
+                    <div class="p-7 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl">
+                        <form id="inlineContactForm" onsubmit="handleFormSubmit(event, 'inlineSuccessMsg')" class="space-y-5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Your Full Name *</label>
+                                    <input type="text" required placeholder="Dr. Sarah Ahmed" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">School / Institution Name *</label>
+                                    <input type="text" required placeholder="Beacon International Academy" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Work Email *</label>
+                                    <input type="email" required placeholder="principal@school.edu" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Student Strength</label>
+                                    <select class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                        <option>Under 300 Students</option>
+                                        <option selected>300 – 1,500 Students</option>
+                                        <option>1,500 – 5,000 Students</option>
+                                        <option>5,000+ Multi-Campus</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">How can we help?</label>
+                                <textarea rows="3" placeholder="Tell us about your current challenges (fee automation, attendance, parent app...)" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-3.5 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-lg shadow-brand-600/25 transition-all">
+                                Book Live Demo & Get Sandbox Access
+                            </button>
+
+                            <!-- Confirmation Feedback -->
+                            <div id="inlineSuccessMsg" class="hidden p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-sm font-medium text-center">
+                                Thank you! Your demo request has been received by the Schoolvix onboarding team. We will contact you shortly.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 8. PROFESSIONAL FOOTER ==================== -->
+    <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 pt-16 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-200 dark:border-slate-800">
+                <!-- Brand Column -->
+                <div class="lg:col-span-1">
+                    <a href="#" class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                            </svg>
+                        </div>
+                        <span class="font-display font-extrabold text-xl text-slate-900 dark:text-white">School<span class="text-brand-600 dark:text-brand-400">vix</span></span>
+                    </a>
+                    <p class="mt-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                        Empowering schools, colleges, and educational networks worldwide with intelligent cloud administration.
+                    </p>
+                </div>
+
+                <!-- Product Links -->
+                <div>
+                    <h4 class="font-display font-bold text-sm uppercase tracking-wider text-slate-900 dark:text-white">Platform</h4>
+                    <ul class="mt-4 space-y-2.5 text-sm text-slate-500 dark:text-slate-400">
+                        <li><a href="#live-demo" class="hover:text-brand-600 dark:hover:text-brand-400">Admin Dashboard</a></li>
+                        <li><a href="#live-demo" class="hover:text-brand-600 dark:hover:text-brand-400">Teacher Portal</a></li>
+                        <li><a href="#live-demo" class="hover:text-brand-600 dark:hover:text-brand-400">Parent & Student App</a></li>
+                        <li><a href="#modules" class="hover:text-brand-600 dark:hover:text-brand-400">Biometric Attendance</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Links -->
+                <div>
+                    <h4 class="font-display font-bold text-sm uppercase tracking-wider text-slate-900 dark:text-white">Resources</h4>
+                    <ul class="mt-4 space-y-2.5 text-sm text-slate-500 dark:text-slate-400">
+                        <li><a href="#pricing" class="hover:text-brand-600 dark:hover:text-brand-400">Pricing & Licensing</a></li>
+                        <li><a href="#impact" class="hover:text-brand-600 dark:hover:text-brand-400">Case Studies</a></li>
+                        <li><a href="#contact" class="hover:text-brand-600 dark:hover:text-brand-400">Data Security (ISO-27001)</a></li>
+                        <li><a href="https://github.com/Schoolvixofficial" target="_blank" rel="noopener" class="hover:text-brand-600 dark:hover:text-brand-400">GitHub Official</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter Signup -->
+                <div>
+                    <h4 class="font-display font-bold text-sm uppercase tracking-wider text-slate-900 dark:text-white">EdTech Insights</h4>
+                    <p class="mt-4 text-sm text-slate-500 dark:text-slate-400">Get product updates and school management best practices.</p>
+                    <form onsubmit="handleNewsletter(event)" class="mt-4 flex gap-2">
+                        <input type="email" id="newsletterEmail" required placeholder="Enter email" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <button type="submit" class="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold shrink-0 transition-colors">
+                            Join
+                        </button>
+                    </form>
+                    <p id="newsletterFeedback" class="hidden mt-2 text-xs text-emerald-600 dark:text-emerald-400 font-medium">Subscribed! Welcome to Schoolvix updates.</p>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
+                <p>&copy; <span id="currentYear"></span> Schoolvixofficial — School Management Systems. All rights reserved.</p>
+                <div class="flex items-center gap-6">
+                    <a href="#contact" class="hover:text-slate-900 dark:hover:text-white">Privacy Policy</a>
+                    <a href="#contact" class="hover:text-slate-900 dark:hover:text-white">Terms of Service</a>
+                    <a href="#contact" class="hover:text-slate-900 dark:hover:text-white">SLA Guarantee</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL: INTERACTIVE DEMO REQUEST ==================== -->
+    <div id="demoModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+        <div class="relative w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-7 sm:p-8 shadow-2xl">
+            <button onclick="closeDemoModal()" aria-label="Close Modal" class="absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+
+            <span id="modalBadge" class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-brand-100 text-brand-700 dark:bg-brand-950 dark:text-brand-300">Request Free Demo</span>
+            <h3 class="mt-3 font-display font-extrabold text-2xl text-slate-900 dark:text-white">Launch Your Schoolvix Sandbox</h3>
+            <p class="mt-1.5 text-sm text-slate-500 dark:text-slate-400">Enter your details below to receive instant demo credentials and a guided tour.</p>
+
+            <form onsubmit="handleFormSubmit(event, 'modalSuccessMsg')" class="mt-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1.5">Full Name *</label>
+                    <input type="text" required placeholder="e.g. Tariq Mahmood" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1.5">Institution Name *</label>
+                    <input type="text" required placeholder="e.g. Global Scholars High School" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1.5">Official Email *</label>
+                    <input type="email" required placeholder="admin@school.edu" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+
+                <button type="submit" class="w-full py-3 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-lg shadow-brand-600/25 transition-all">
+                    Confirm & Unlock Demo
+                </button>
+
+                <div id="modalSuccessMsg" class="hidden p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-semibold text-center">
+                    Success! Your Schoolvix demo request is confirmed. Check your inbox shortly.
+                </div>
+            </form>
+        </div>
     </div>
+
+    <!-- ==================== JAVASCRIPT INTERACTIVITY ==================== -->
+    <script>
+        // 1. Dynamic Year in Footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // 2. Dark / Light Theme Persistence & Toggle
+        const htmlEl = document.documentElement;
+        const themeToggleBtn = document.getElementById('themeToggle');
+
+        if (localStorage.getItem('schoolvix_theme') === 'dark' || 
+           (!localStorage.getItem('schoolvix_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlEl.classList.add('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            htmlEl.classList.toggle('dark');
+            localStorage.setItem('schoolvix_theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // 3. Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        function closeMobileMenu() { mobileMenu.classList.add('hidden'); }
+
+        // 4. Role-Based Interactive Dashboard Preview Data & Switcher
+        const roleData = {
+            admin: {
+                title: "Principal & Admin Command Center",
+                subtitle: "Real-time financial health, campus occupancy, and staff performance across all branches.",
+                badge: "ADMIN ROLE",
+                cards: [
+                    { label: "Monthly Fee Recovery", value: "96.8%", trend: "+4.1% vs last month", color: "emerald" },
+                    { label: "Staff Present Today", value: "142 / 145", trend: "3 on approved leave", color: "brand" },
+                    { label: "New Admissions (2026)", value: "418", trend: "84 pending interview", color: "cyan" }
+                ],
+                bars: [
+                    { label: "Grade 1–5 Fee Collection", pct: "98%" },
+                    { label: "Grade 6–10 Fee Collection", pct: "94%" },
+                    { label: "A-Levels / Senior College", pct: "91%" }
+                ],
+                feed: [
+                    "Automated SMS fee reminders dispatched to 42 pending accounts.",
+                    "Campus B biometric attendance synced at 08:15 AM.",
+                    "Q4 Board Exam seating chart generated automatically."
+                ]
+            },
+            teacher: {
+                title: "Faculty & Classroom Workspace",
+                subtitle: "One-tap roll call, digital homework distribution, and automated gradebook analytics.",
+                badge: "TEACHER PORTAL",
+                cards: [
+                    { label: "Today's Classes", value: "5 Lectures", trend: "Next: Grade 10-A Physics", color: "brand" },
+                    { label: "Assignments Graded", value: "34 / 36", trend: "2 late submissions", color: "emerald" },
+                    { label: "Class Avg. Score", value: "88.4%", trend: "+6% improvement", color: "purple" }
+                ],
+                bars: [
+                    { label: "Grade 10-A Attendance", pct: "97%" },
+                    { label: "Grade 9-B Lab Submission", pct: "89%" },
+                    { label: "Syllabus Completion", pct: "82%" }
+                ],
+                feed: [
+                    "Worksheet #14 uploaded for Grade 10-A Physics.",
+                    "Parent-Teacher meeting requested by Mrs. R. Khan (4:00 PM).",
+                    "Mid-term marks auto-calculated into digital report cards."
+                ]
+            },
+            parent: {
+                title: "Parent & Student Mobile Experience",
+                subtitle: "Complete visibility into your child's attendance, grades, fee receipts, and school bus location.",
+                badge: "PARENT & STUDENT APP",
+                cards: [
+                    { label: "Student Attendance", value: "99.1%", trend: "Checked in at 07:52 AM", color: "emerald" },
+                    { label: "Latest Term GPA", value: "3.92 / 4.0", trend: "Top 5% of class", color: "brand" },
+                    { label: "Next Fee Due", value: "$0.00", trend: "All invoices paid", color: "cyan" }
+                ],
+                bars: [
+                    { label: "Mathematics & Computing", pct: "96%" },
+                    { label: "Sciences & Lab Work", pct: "93%" },
+                    { label: "English Literature", pct: "90%" }
+                ],
+                feed: [
+                    "School Bus #04 arrived safely at Main Campus Gate.",
+                    "New Homework: History Essay due Friday via Student Portal.",
+                    "Annual Science Fair permission slip signed digitally."
+                ]
+            }
+        };
+
+        function switchRole(roleKey) {
+            // Update Tab Styles
+            document.querySelectorAll('.role-tab').forEach(btn => {
+                btn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-brand-600', 'dark:text-brand-400', 'shadow-sm');
+                btn.classList.add('text-slate-600', 'dark:text-slate-400');
+            });
+            const activeTab = document.getElementById(`tab-${roleKey}`);
+            activeTab.classList.add('bg-white', 'dark:bg-slate-800', 'text-brand-600', 'dark:text-brand-400', 'shadow-sm');
+            activeTab.classList.remove('text-slate-600', 'dark:text-slate-400');
+
+            // Render Content
+            const data = roleData[roleKey];
+            const container = document.getElementById('role-preview-container');
+            container.innerHTML = `
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+                    <div>
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-brand-100 text-brand-700 dark:bg-brand-950 dark:text-brand-300 mb-2">${data.badge}</span>
+                        <h3 class="font-display font-bold text-2xl text-slate-900 dark:text-white">${data.title}</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">${data.subtitle}</p>
+                    </div>
+                    <button onclick="openDemoModal('${data.title}')" class="self-start md:self-center px-4 py-2.5 rounded-xl text-xs font-semibold bg-brand-600 hover:bg-brand-700 text-white shadow transition-colors">
+                        Try Live Interactive Sandbox &rarr;
+                    </button>
+                </div>
+
+                <!-- KPI Row -->
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-5">
+                    ${data.cards.map(c => `
+                        <div class="p-5 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">${c.label}</div>
+                            <div class="mt-2 font-display font-extrabold text-3xl text-slate-900 dark:text-white">${c.value}</div>
+                            <div class="mt-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">${c.trend}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- Analytics & Activity Row -->
+                <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="p-6 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800">
+                        <h4 class="font-display font-bold text-sm text-slate-900 dark:text-white mb-4">Real-Time Performance Metrics</h4>
+                        <div class="space-y-4">
+                            ${data.bars.map(b => `
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1.5">
+                                        <span class="text-slate-600 dark:text-slate-300">${b.label}</span>
+                                        <span class="text-brand-600 dark:text-brand-400">${b.pct}</span>
+                                    </div>
+                                    <div class="w-full h-2.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                        <div class="h-full rounded-full bg-gradient-to-r from-brand-600 to-cyan-500 transition-all duration-700" style="width: ${b.pct}"></div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800">
+                        <h4 class="font-display font-bold text-sm text-slate-900 dark:text-white mb-4">Automated Activity Stream</h4>
+                        <ul class="space-y-3.5">
+                            ${data.feed.map(item => `
+                                <li class="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-300">
+                                    <span class="mt-1.5 w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+                                    <span>${item}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+        // Initialize default Admin View
+        switchRole('admin');
+
+        // 5. Pricing Billing Toggle (Monthly vs Annual)
+        function setBilling(mode) {
+            const monthlyBtn = document.getElementById('billMonthlyBtn');
+            const annualBtn = document.getElementById('billAnnualBtn');
+            const prices = document.querySelectorAll('.price-val');
+
+            if (mode === 'monthly') {
+                monthlyBtn.classList.add('bg-white', 'dark:bg-slate-800', 'text-brand-600', 'dark:text-brand-400', 'shadow-sm');
+                annualBtn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-brand-600', 'dark:text-brand-400', 'shadow-sm');
+                prices.forEach(el => el.textContent = '$' + el.dataset.monthly);
+            } else {
+                annualBtn.classList.add('bg-white', 'dark:bg-slate-800', 'text-brand-600', 'dark:text-brand-400', 'shadow-sm');
+                monthlyBtn.classList.remove('bg-white', 'dark:bg-slate-800', 'text-brand-600', 'dark:text-brand-400', 'shadow-sm');
+                prices.forEach(el => el.textContent = '$' + el.dataset.annual);
+            }
+        }
+
+        // 6. Demo Modal Controls
+        const demoModal = document.getElementById('demoModal');
+        function openDemoModal(contextTitle) {
+            document.getElementById('modalBadge').textContent = contextTitle || 'Request Free Demo';
+            document.getElementById('modalSuccessMsg').classList.add('hidden');
+            demoModal.classList.remove('hidden');
+            demoModal.classList.add('flex');
+        }
+        function closeDemoModal() {
+            demoModal.classList.add('hidden');
+            demoModal.classList.remove('flex');
+        }
+        demoModal.addEventListener('click', (e) => {
+            if (e.target === demoModal) closeDemoModal();
+        });
+
+        // 7. Form & Newsletter Submissions (No alert() used)
+        function handleFormSubmit(event, msgId) {
+            event.preventDefault();
+            const msgEl = document.getElementById(msgId);
+            msgEl.classList.remove('hidden');
+            event.target.reset();
+        }
+        function handleNewsletter(event) {
+            event.preventDefault();
+            document.getElementById('newsletterFeedback').classList.remove('hidden');
+            document.getElementById('newsletterEmail').value = '';
+        }
+
+        // 8. Scroll Reveal & Animated Counters
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Animated Counters
+        let countersStarted = false;
+        const counterObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !countersStarted) {
+                countersStarted = true;
+                document.querySelectorAll('.counter').forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const duration = 1600;
+                    const stepTime = 20;
+                    const increment = target / (duration / stepTime);
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            counter.textContent = target;
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = Math.floor(current);
+                        }
+                    }, stepTime);
+                });
+            }
+        }, { threshold: 0.3 });
+
+        const impactSection = document.getElementById('impact');
+        if (impactSection) counterObserver.observe(impactSection);
+    </script>
 </body>
 </html>
